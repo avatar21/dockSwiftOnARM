@@ -1,16 +1,15 @@
 # Dockerfile
 #
-# First download the prebuild binaries (~170MB), does NOT contain SPM!:
-#
-#   curl -L -o swift-4.1-RELEASE-ARMV7-GLIBC2.23-chnmrc-2018-06-06.tgz https://www.dropbox.com/s/yauj3tyyh90cl05/swift-4.1-release-NOSPM-ARMV7-ubuntu-16.04-chnmrc.tgz?dl=1
-#
-# docker run -i --tty --rm helje5/rpi-swift:4.1.0
+#   docker build -t helje5/arm64v8-swift:4.1.0 \
+#     -f arm64v8-4.1.0-futurejones/arm64v8-ubuntu-swift-4.1.0.dockerfile \
+#     ./empty-ctx
+#   docker run -i --tty --rm helje5/arm64v8-swift:4.1.0
 # 
-FROM ioft/armhf-ubuntu:16.04
+FROM arm64v8/ubuntu:16.04
 
 LABEL maintainer "Helge Heß <me@helgehess.eu>"
 
-ARG TARBALL=swift-4.1-RELEASE-ARMV7-GLIBC2.23-chnmrc-2018-06-06.tgz
+ARG SWIFTPKG=https://packagecloud.io/swift-arm/debian/packages/debian/stretch/swift4_4.1_arm64.deb
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -19,19 +18,18 @@ RUN apt-get upgrade -y
 
 # Funny: libcurl3 provies libcurl.so.4 :-)
 # Maybe libpython3.5 makes libpython2.7 obsolete?
-# libcurl3-nss is required by latest chnmrc drop
 RUN apt-get install -y \
   git           \
   libedit2      \
   libpython2.7 libcurl3 libxml2 libicu55 \
-  libc6-dev	\
-  libatomic1	\
-  libpython3.5 \
-  libcurl3-nss
+  libc6-dev     \
+  libatomic1    \
+  libpython3.5  \
+  curl
 
+RUN bash -c "curl -s https://packagecloud.io/install/repositories/swift-arm/debian/script.deb.sh | bash"
 
-# Chnmrc's tarball starts at /
-ADD $TARBALL /
+RUN apt-get install -y swift4
 
 RUN bash -c "echo '/usr/lib/swift/linux' > /etc/ld.so.conf.d/swift.conf;\
              echo '/usr/lib/swift/clang/lib/linux' >> /etc/ld.so.conf.d/swift.conf;\

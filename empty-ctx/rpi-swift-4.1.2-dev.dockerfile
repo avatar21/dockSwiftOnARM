@@ -1,8 +1,8 @@
 # Dockerfile
 #
-#   docker run -i --tty --name "swift-dev" --rm helje5/rpi-swift-dev:4.1.0
+#   docker run -i --tty --name "swift-dev" --rm helje5/rpi-swift-dev:4.1.2
 #
-FROM helje5/rpi-swift:4.1.0
+FROM helje5/rpi-swift:4.1.2
 
 LABEL maintainer "Helge Heß <me@helgehess.eu>"
 
@@ -69,6 +69,6 @@ RUN bash -c "\
   mkdir -p /home/swift/.emacs.d/lisp; \
   curl -L -o /home/swift/.emacs.d/lisp/swift-mode.el https://raw.githubusercontent.com/iamleeg/swift-mode/master/swift-mode.el; \
   echo \"(add-to-list 'load-path \\\"~/.emacs.d/lisp/\\\")\" >> .emacs; \
-  echo \"(require 'swift-mode)\"; >> .emacs \
+  echo \"(require 'swift-mode)\" >> .emacs; \
   echo \"(setq-default indent-tabs-mode nil)\" >> .emacs \
 "

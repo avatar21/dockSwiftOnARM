@@ -1,8 +1,11 @@
 # Dockerfile
 #
-#   docker run -i --tty --name "swift-dev" --rm helje5/rpi-swift-dev:4.1.0
+#   docker build -t helje5/arm64v8-swift-dev:4.1.0 \
+#     -f empty-ctx/arm64v8-swift-4.1.0-dev.dockerfile \
+#     ./empty-ctx
+#   docker run -i --tty --name "swift-dev" --rm helje5/arm64v8-swift-dev:4.1.0
 #
-FROM helje5/rpi-swift:4.1.0
+FROM helje5/arm64v8-swift:4.1.1
 
 LABEL maintainer "Helge Heß <me@helgehess.eu>"
 
@@ -34,7 +37,6 @@ RUN apt-get install -y \
   libicu-dev                  \
   autoconf libtool pkg-config \
   libblocksruntime-dev        \
-  libkqueue-dev               \
   libpthread-workqueue-dev    \
   systemtap-sdt-dev           \
   libbsd-dev libbsd0          \

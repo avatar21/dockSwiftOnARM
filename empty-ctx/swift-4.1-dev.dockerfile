@@ -42,15 +42,15 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get install -y \
   apt-utils vim emacs make git libicu55 libedit2 \
-  libicu-dev  \
+  libicu-dev                  \
   autoconf libtool pkg-config \
-  curl libcurl4-openssl-dev \
-  libedit-dev \
-  libxml2 \
-  wget sudo gosu \
+  curl libcurl4-openssl-dev   \
+  libedit-dev                 \
+  libxml2                     \
+  wget sudo gosu              \
   clang-$CLANG_VERSION libc6-dev libxml2-dev bison lsb-release gdb \
-  libsqlite3-dev \
-  telnet netcat
+  libsqlite3-dev              \
+  telnet netcat               \
 
 RUN bash -c "update-alternatives --quiet --install /usr/bin/clang \
                clang   /usr/bin/clang-$CLANG_VERSION   100;\
@@ -73,5 +73,6 @@ RUN bash -c "\
   mkdir -p /home/swift/.emacs.d/lisp; \
   curl -L -o /home/swift/.emacs.d/lisp/swift-mode.el https://raw.githubusercontent.com/iamleeg/swift-mode/master/swift-mode.el; \
   echo \"(add-to-list 'load-path \\\"~/.emacs.d/lisp/\\\")\" >> .emacs; \
-  echo \"(require 'swift-mode)\" >> .emacs \
+  echo \"(require 'swift-mode)\" >> .emacs; \
+  echo \"(setq-default indent-tabs-mode nil)\" >> .emacs \
 "
